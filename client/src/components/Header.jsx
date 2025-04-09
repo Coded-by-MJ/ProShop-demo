@@ -2,33 +2,32 @@ import { Navbar, Nav, Container, NavDropdown, Badge } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router";
-// import { useLogoutMutation } from "../slices/usersApiSlice";
-// import { logout } from "../slices/authSlice";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import { logout } from "../slices/authSlice";
 // import SearchBox from "./SearchBox";
 import logo from "../assets/logo.png";
-// import { resetCart } from "../slices/cartSlice";
+import { resetCart } from "../slices/cartSlice";
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
-  // const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
 
-  const userInfo = false;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //   const [logoutApiCall] = useLogoutMutation();
+  const [logoutApiCall] = useLogoutMutation();
 
   const logoutHandler = async () => {
-    // try {
-    //   await logoutApiCall().unwrap();
-    //   dispatch(logout());
-    //   // NOTE: here we need to reset cart state for when a user logs out so the next
-    //   // user doesn't inherit the previous users cart and shipping
-    //   dispatch(resetCart());
-    //   navigate("/login");
-    // } catch (err) {
-    //   console.error(err);
-    // }
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      //   // NOTE: here we need to reset cart state for when a user logs out so the next
+      //   // user doesn't inherit the previous users cart and shipping
+      dispatch(resetCart());
+      navigate("/login");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -69,7 +68,7 @@ const Header = () => {
               )}
 
               {/* Admin Links */}
-              {/* {userInfo && userInfo.isAdmin && (
+              {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenu">
                   <NavDropdown.Item as={Link} to="/admin/productlist">
                     Products
@@ -81,7 +80,7 @@ const Header = () => {
                     Users
                   </NavDropdown.Item>
                 </NavDropdown>
-              )} */}
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
