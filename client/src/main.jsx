@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./assets/styles/bootstrap.custom.css";
 import "./assets/styles/index.css";
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import App from "./App";
 import {
   createBrowserRouter,
@@ -22,10 +21,10 @@ import ShippingScreen from "./screens/ShippingScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import OrderScreen from "./screens/OrderScreen";
-// import ProfileScreen from "./screens/ProfileScreen";
-// import OrderListScreen from "./screens/admin/OrderListScreen";
-// import ProductListScreen from "./screens/admin/ProductListScreen";
-// import ProductEditScreen from "./screens/admin/ProductEditScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import OrderListScreen from "./screens/admin/OrderListScreen";
+import ProductListScreen from "./screens/admin/ProductListScreen";
+import ProductEditScreen from "./screens/admin/ProductEditScreen";
 // import UserListScreen from "./screens/admin/UserListScreen";
 // import UserEditScreen from "./screens/admin/UserEditScreen";
 import store from "./store";
@@ -51,6 +50,19 @@ const router = createBrowserRouter(
         <Route path="/payment" element={<PaymentScreen />} />{" "}
         <Route path="/placeorder" element={<PlaceOrderScreen />} />{" "}
         <Route path="/order/:id" element={<OrderScreen />} />{" "}
+        <Route path="/profile" element={<ProfileScreen />} />
+      </Route>
+      <Route path="" element={<AdminRoute />}>
+        <Route path="/admin/productlist" element={<ProductListScreen />} />
+        <Route path="/admin/product/:id/edit" element={<ProductEditScreen />} />
+        {/* <Route path="/admin/userlist" element={<UserListScreen />} />
+        {/* <Route path="/admin/user/:id/edit" element={<UserEditScreen />} />
+        <Route
+          path="/admin/productlist/:pageNumber"
+          element={<ProductListScreen />}
+        />
+ */}
+        <Route path="/admin/orderlist" element={<OrderListScreen />} />
       </Route>
     </Route>
   )
