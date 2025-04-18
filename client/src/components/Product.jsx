@@ -2,6 +2,7 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router";
 import Rating from "./Rating";
 
+/* eslint-disable react/prop-types */
 function Product({ product }) {
   return (
     <Card className="my-3 p-3 rounded">
