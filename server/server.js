@@ -33,10 +33,11 @@ const __dirname = path.resolve();
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 if (process.env.NODE_ENV === "production") {
-  app.use("/uploads", express.static(path.join(__dirname, "/client/dist")));
+  // Serve static files from the dist folder
+  app.use(express.static(path.join(__dirname, "/client/dist")));
 
   app.get("*", (req, res) =>
-    req.sendFile(path.resolve(__dirname, "client", "dist", "index.htmls"))
+    res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"))
   );
 } else {
   app.get("/", (req, res) => {
