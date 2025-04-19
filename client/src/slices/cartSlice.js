@@ -52,19 +52,8 @@ const cartSlice = createSlice({
 
       return updateCart(state);
     },
-    resetCart: (state) => {
-      state = {
-        cartItems: [],
-        shippingAddress: {
-          address: "",
-          city: "",
-          postalCode: "",
-          country: "",
-        },
-        paymentMethod: "PayPal",
-      };
-      return updateCart(state);
-    },
+    // eslint-disable-next-line no-unused-vars
+    resetCart: (state) => (state = initialState),
   },
 });
 

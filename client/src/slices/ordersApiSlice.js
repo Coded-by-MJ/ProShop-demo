@@ -9,19 +9,21 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: { ...order },
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: [{ type: "Order" }],
     }),
     getMyOrders: builder.query({
       query: () => ({
         url: `${ORDERS_URL}/mine`,
       }),
       keepUnusedDataFor: 5,
+      providesTags: [{ type: "Order" }],
     }),
     getOrderDetails: builder.query({
       query: (orderId) => ({
         url: `${ORDERS_URL}/${orderId}`,
       }),
       keepUnusedDataFor: 5,
+      providesTags: (result, error, id) => [{ type: "Order", id }],
     }),
     getOrders: builder.query({
       query: () => ({
@@ -34,7 +36,10 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         url: `${ORDERS_URL}/${orderId}/deliver`,
         method: "PUT",
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: (result, error, orderId) => [
+        { type: "Order" },
+        { type: "Order", id: orderId },
+      ],
     }),
     payOrder: builder.mutation({
       query: ({ orderId, details }) => ({
@@ -42,7 +47,10 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: { ...details },
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: (result, error, { orderId }) => [
+        { type: "Order" },
+        { type: "Order", id: orderId },
+      ],
     }),
     getPaypalClientId: builder.query({
       query: () => ({

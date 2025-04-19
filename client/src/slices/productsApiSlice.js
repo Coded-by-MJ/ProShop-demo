@@ -9,20 +9,25 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         params: { keyword, pageNumber },
       }),
       // keepUnusedDataFor: 5,
-      providesTags: ["Product"],
+      providesTags: [{ type: "Product" }],
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
         url: `${PRODUCTS_URL}/${productId}`,
       }),
       keepUnusedDataFor: 5,
+      providesTags: (result, error, id) => [{ type: "Product", id }],
+      invalidatesTags: (result, error, id) => [
+        { type: "Product" }, // generic list
+        { type: "Product", id }, // specific user
+      ],
     }),
     createProduct: builder.mutation({
       query: () => ({
         url: PRODUCTS_URL,
         method: "POST",
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: [{ type: "Product" }],
     }),
     updateProduct: builder.mutation({
       query: (data) => ({
@@ -30,7 +35,11 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["Products"],
+
+      invalidatesTags: (result, error, { productId }) => [
+        { type: "Product" },
+        { type: "Product", id: productId },
+      ],
     }),
     uploadProductImage: builder.mutation({
       query: (data) => ({
@@ -45,7 +54,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: `${PRODUCTS_URL}/${productId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: [{ type: "Product" }],
     }),
     createReview: builder.mutation({
       query: (data) => ({
@@ -53,7 +62,10 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Product"],
+      invalidatesTags: (result, error, { productId }) => [
+        { type: "Product" },
+        { type: "Product", id: productId },
+      ],
     }),
     getTopProducts: builder.query({
       query: () => `${PRODUCTS_URL}/top`,
